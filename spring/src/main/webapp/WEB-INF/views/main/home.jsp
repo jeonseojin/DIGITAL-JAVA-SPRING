@@ -7,4 +7,3 @@
 	</h1>
 	<a href="<%=request.getContextPath()%>/test?id=abcde&pw=123">링크</a>
 </div>
-

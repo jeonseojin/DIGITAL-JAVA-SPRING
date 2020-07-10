@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.green.spring.dao.BoardDao">
+
+<!-- list.jsp에서 mysql의 board에 있는 모든 정보를 불러오는 역할 -->
+  <select id="getBoardList" resultType="kr.green.spring.vo.BoardVo"><!-- class이름을 의미 -->
+    select * from board
+    	where isDel ='N'
+  </select>
+  
+<!-- board에 같은 번호가 있는 경우 불러오기 -->
+  <select id="getBoard" resultType="kr.green.spring.vo.BoardVo">
+  	select * from board where num = #{num}
+  </select>
+  
+  
+<!-- views(조회수)를  -->
+  <update id="increaseViews">
+  	<!-- 업데이트는 리턴 타입을 따로 가지고 있지 않다. -->
+  	update board
+  		set
+  			views = views+1
+  		where
+  			num = #{num}
+  </update>
+  <insert id="registerBoard">
+  	<!-- 인설트는 리턴 타입을 따로 가지고 있지 않다. -->
+  	insert into 
+  		board(title,writer,content)
+  		values(#{board.title},#{board.writer},#{board.content})
+  </insert>
+  	<!-- @Param을 입력한 것과 입력하지 않은 것의 차이점 (위 : 적용하지 않은것), (아래: 적용한 것) --> 
+  <update id="updateBoard">
+  	update board
+  		set 
+  			title = #{board.title},
+  			content = #{board.content},<!-- 삭제를 위해서 추가한 내용 -->
+  			isDel = #{board.isDel},
+  			delDate = #{board.delDate}
+  		where
+  			num = #{board.num}
+  </update>
+  
+
+</mapper>

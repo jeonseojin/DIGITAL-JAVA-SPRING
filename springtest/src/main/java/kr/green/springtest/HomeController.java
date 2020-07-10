@@ -1,4 +1,4 @@
-package kr.green.springtest.controller;
+package kr.green.springtest;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -20,19 +20,12 @@ public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home() {
+	public ModelAndView home(ModelAndView mv) {
 		logger.info("URI:/");
-		return "home";
-	}
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public ModelAndView testGet(ModelAndView mv) {
-		logger.info("URI:/test");
-		mv.setViewName("/main/test");
+		mv.setViewName("/main/home");
 		return mv;
 	}
-	
+
+
 }
