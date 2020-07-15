@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.green.spring.pagination.Criteria;
+import kr.green.spring.pagination.PageMaker;
 import kr.green.spring.service.BoardService;
 import kr.green.spring.service.UserService;
 import kr.green.spring.vo.BoardVo;
@@ -28,13 +30,16 @@ public class BoardController {
 	
 	//list.jsp와 연결
 	@RequestMapping(value = "/board/list", method = RequestMethod.GET)
-	public ModelAndView boardListGet(ModelAndView mv) {
+	public ModelAndView boardListGet(ModelAndView mv, Criteria cri) {
 		logger.info("URI:/board/list");
+		PageMaker pm = boardService.getPageMaker(cri);
 		mv.setViewName("/board/list");
 		// 여러개가 올  수 있으니깐 Array를 사용
 		ArrayList<BoardVo> list;
-		list = boardService.getBoardList();
+		list = boardService.getBoardList(cri);
 		mv.addObject("list", list);
+		mv.addObject("pm", pm);
+		System.out.println(pm);
 		return mv;
 	}
 	// detail.jsp와 연결

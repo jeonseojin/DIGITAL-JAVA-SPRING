@@ -16,7 +16,7 @@
 	    </thead>
 	    <tbody>
 	    <!-- c: -->
-	    	<c:forEach var="board" items="${list }">
+	    	<c:forEach var="board" items="${list}">
 			      <tr>
 			        <td>${board.num}</td>
 			        <td><a href="<%=request.getContextPath()%>/board/detail?num=${board.num}">${board.title}</a></td>
@@ -28,3 +28,16 @@
 	      
 	    </tbody>
 	  </table>
+	  
+	     <ul class="pagination justify-content-center">
+		    <c:if test="${pm.prev}">
+				<li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${pm.startPage-1}">Previus</a></li>
+			</c:if>
+			<c:forEach var="index" begin="${pm.startPage}" end="${pm.endPage}">
+				<li class="page-item <c:if test="${index == pm.criteria.page}">active</c:if>"><a class="page-link"" href="<%=request.getContextPath()%>/board/list?page=${index}">${index}</a></li>
+			</c:forEach>
+			<c:if test="${pm.next}">
+				<li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${pm.endPage+1}">Next</a></li>
+			</c:if>
+		
+		</ul>

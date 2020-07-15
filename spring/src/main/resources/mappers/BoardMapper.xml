@@ -8,6 +8,8 @@
   <select id="getBoardList" resultType="kr.green.spring.vo.BoardVo"><!-- class이름을 의미 -->
     select * from board
     	where isDel ='N'
+    	order by num desc
+    	limit #{cri.pageStart}, #{cri.perPageNum}
   </select>
   
 <!-- board에 같은 번호가 있는 경우 불러오기 -->
@@ -31,7 +33,7 @@
   		board(title,writer,content)
   		values(#{board.title},#{board.writer},#{board.content})
   </insert>
-  	<!-- @Param을 입력한 것과 입력하지 않은 것의 차이점 (위 : 적용하지 않은것), (아래: 적용한 것) --> 
+
   <update id="updateBoard">
   	update board
   		set 
@@ -44,4 +46,9 @@
   </update>
   
 
+  <select id="getTotalCount" resultType="int">
+    select count(*) 
+    	from board
+    	where isDel ='N'
+  </select>
 </mapper>
