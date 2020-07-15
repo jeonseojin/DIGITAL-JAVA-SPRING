@@ -1,0 +1,26 @@
+@charset "UTF-8";
+
+.container.body{
+	min-height: 800px;
+	margin-top: 20px;
+}
+.btn-board{
+	float: right;
+}
+.btn-board.mama {
+	margin-right: 5px;
+}
+.left{
+	float: left;
+}
+.input-group-text.input-text{
+	float: right;
+	background-color: #ffffff;
+	border: none;
+}
+.text-small{
+	width: 74px;
+}
+.table-height th{
+	padding: 0;
+}

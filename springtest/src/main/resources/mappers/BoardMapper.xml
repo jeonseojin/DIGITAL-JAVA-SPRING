@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.green.springtest.dao.BoardDao">
+	<select id="getBoardList" resultType="kr.green.springtest.vo.BoardVo">
+		select *
+			from board
+			where isDel = 'N'
+			order by num desc limit 0, 10
+			<!-- 해당 limit은 최대 10개가 보여지도록 설정하는것 -->
+	</select>
+	<select id="getBoard" resultType="kr.green.springtest.vo.BoardVo">
+		select *
+			from board
+			where num = #{num}
+			<!-- 삭제여부와 상관없이 불러온 후에 처리 -->
+	</select>
+	
+	<!-- 등록 -->
+	<insert id="insertBoard">
+		insert into
+		board(title, writer, content)
+		values(#{board.title}, #{board.writer},#{board.content})
+	</insert>
+	
+	<!-- 조회수/ 수정 -->
+	<update id="updateBoard">
+		update board
+			set
+				title = #{board.title},
+				content = #{board.content},
+				isDel = #{board.isDel},
+				delDate = #{board.delDate},<!-- 삭제 -->
+				views = #{board.views}<!-- 조회수 -->
+			where
+				num = #{board.num}
+	</update>
+</mapper>

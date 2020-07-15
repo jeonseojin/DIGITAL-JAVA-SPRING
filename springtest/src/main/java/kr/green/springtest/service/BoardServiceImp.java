@@ -1,0 +1,72 @@
+package kr.green.springtest.service;
+
+import java.util.ArrayList;
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import kr.green.springtest.dao.BoardDao;
+import kr.green.springtest.vo.BoardVo;
+
+@Service
+public class BoardServiceImp implements BoardService {
+
+	@Autowired
+	private BoardDao boardDao;
+
+	@Override
+	public ArrayList<BoardVo> getBoardList() {
+		return boardDao.getBoardList();
+	}
+
+	@Override
+	public BoardVo getBoard(Integer num) {
+		if(num==null)	return null;
+		return boardDao.getBoard(num);
+	}
+
+
+	@Override
+	public void insertBoard(BoardVo board) {
+		boardDao.insertBoard(board);
+		
+	}
+
+	@Override
+	public BoardVo view(Integer num) {
+		// getBoard+조회수
+		BoardVo board = getBoard(num);
+		if(board != null) {
+			// board가 null이 아닐때 작동
+			board.setViews(board.getViews()+1);
+			// 현재 갖고 있는 조회수를 가지고 와서 거기에 +1을 하여 Dao에게 넘겨줌
+			boardDao.updateBoard(board);
+			//Dao에게 업데이트하라고 일을 시킴
+		}
+		return board;
+	}
+
+	@Override
+	public void updateBoard(BoardVo board) {
+		board.setIsDel('N');
+		boardDao.updateBoard(board);		
+	}
+
+	//delete controller와 연결
+	@Override
+	public void deleteBoard(Integer num) {
+		// 메소드의 재사용성을 높이기 위해서 만들어 놓았던 메소드들을 이용하여 삭제
+		BoardVo board = boardDao.getBoard(num);
+		if(board==null)
+			return;
+		board.setIsDel('Y');
+		board.setDelDate(new Date());//board가 가지고 있는 DelDate의 값을 현재 시간으로 설정하는 것
+		boardDao.updateBoard(board);
+	}
+
+
+
+
+
+}

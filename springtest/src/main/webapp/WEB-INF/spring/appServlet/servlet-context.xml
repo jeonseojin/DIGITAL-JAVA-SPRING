@@ -21,7 +21,10 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="kr.green.springtest" />
+	<context:component-scan base-package="kr.green.springtest.*" />
+	<!-- kr.green.springtest.* 
+	component-scan : 클래스와 인터페이스들을 읽기 위한 기본 패키지를 설정하는 것으로 일반적으로는 공통 패키지를 입력 후
+				뒤에 .*을 써준다. -->
 	
 	<beans:bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 	    <beans:property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
