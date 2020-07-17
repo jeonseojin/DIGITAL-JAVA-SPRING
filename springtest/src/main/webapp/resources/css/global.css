@@ -24,3 +24,9 @@
 .table-height th{
 	padding: 0;
 }
+.page-link>i{
+	line-height: 20px;
+}
+.title-input{
+	width: 310px;
+}
