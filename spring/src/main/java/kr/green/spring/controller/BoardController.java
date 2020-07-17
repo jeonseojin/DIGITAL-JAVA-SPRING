@@ -30,8 +30,9 @@ public class BoardController {
 	
 	//list.jsp와 연결
 	@RequestMapping(value = "/board/list", method = RequestMethod.GET)
-	public ModelAndView boardListGet(ModelAndView mv, Criteria cri) {
+	public ModelAndView boardListGet(ModelAndView mv, Criteria cri/* String type, String search를 따로 입력하지 않고 Criteria에 추가함*/) {
 		logger.info("URI:/board/list");
+		//  현재페이지의 정보를 줄테니 이전버튼/다음버튼을 활성할지 등의 일을 결정
 		PageMaker pm = boardService.getPageMaker(cri);
 		mv.setViewName("/board/list");
 		// 여러개가 올  수 있으니깐 Array를 사용
@@ -39,12 +40,11 @@ public class BoardController {
 		list = boardService.getBoardList(cri);
 		mv.addObject("list", list);
 		mv.addObject("pm", pm);
-		System.out.println(pm);
 		return mv;
 	}
 	// detail.jsp와 연결
 	@RequestMapping(value = "/board/detail", method = RequestMethod.GET)
-	public ModelAndView boardDetailGet(ModelAndView mv, Integer num) {// 정수는 integer를 이용하여 입력
+	public ModelAndView boardDetailGet(ModelAndView mv, Integer num, Criteria cri) {// 정수는 integer를 이용하여 입력
 		// 이유 : 사용자가 정상적이지 않는 경로로 올 경우에도 처리를 하기 위해서 integer를 사용 int로 할 경우 null값이 입력되지 않고 에러가 발생 
 		logger.info("URI:/board/detail");
 		mv.setViewName("/board/detail");
@@ -59,6 +59,7 @@ public class BoardController {
 				board.setViews(board.getViews()+1);
 			}
 		}
+		mv.addObject("cri", cri);
 		return mv;
 	}
 	

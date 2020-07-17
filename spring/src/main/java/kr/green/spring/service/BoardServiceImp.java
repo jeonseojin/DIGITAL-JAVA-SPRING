@@ -13,9 +13,9 @@ import kr.green.spring.vo.BoardVo;
 
 @Service
 public class BoardServiceImp implements BoardService {
-	@Autowired
-		private BoardDao boardDao;
 	
+	@Autowired
+	private BoardDao boardDao;
 	
 	@Override
 	public ArrayList<BoardVo> getBoardList(Criteria cri) {
@@ -67,11 +67,11 @@ public class BoardServiceImp implements BoardService {
 		
 	}
 
-
+	
 	@Override
 	public PageMaker getPageMaker(Criteria cri) {
 		PageMaker pm = new PageMaker();
-		int totalCount = boardDao.getTotalCount();
+		int totalCount = boardDao.getTotalCount(cri);
 		pm.setCriteria(cri);
 		pm.setTotalCount(totalCount);
 		return pm;

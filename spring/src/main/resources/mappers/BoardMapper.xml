@@ -8,6 +8,21 @@
   <select id="getBoardList" resultType="kr.green.spring.vo.BoardVo"><!-- class이름을 의미 -->
     select * from board
     	where isDel ='N'
+    	<if test="cri.type == 0">
+    		and
+    			(writer like concat('%', #{cri.search},'%')
+    			or title like concat('%', #{cri.search},'%')
+    			or content like concat('%', #{cri.search},'%')) <!-- concat('%', #{cri.search},'%') 해당 단어가 들어간 모든 것을 가져오겠다 -->
+    	</if>
+    	<if test="cri.type == 1">
+    		and writer like concat('%', #{cri.search},'%')
+    	</if>
+    	<if test="cri.type == 2">
+    		and title like concat('%', #{cri.search},'%')
+    	</if>
+    	<if test="cri.type == 3">
+    		and content like concat('%', #{cri.search},'%')
+    	</if>
     	order by num desc
     	limit #{cri.pageStart}, #{cri.perPageNum}
   </select>
@@ -50,5 +65,21 @@
     select count(*) 
     	from board
     	where isDel ='N'
+    	<!-- 검색했을때 페이지네이션의 갯수를 검색된 수와 일치하게 변경하기위해서 코드 추가 -->
+    	<if test="cri.type == 0">
+    		and
+    			(writer like concat('%', #{cri.search},'%')
+    			or title like concat('%', #{cri.search},'%')
+    			or content like concat('%', #{cri.search},'%'))
+    	</if>
+    	<if test="cri.type == 1">
+    		and writer like concat('%', #{cri.search},'%')
+    	</if>
+    	<if test="cri.type == 2">
+    		and title like concat('%', #{cri.search},'%')
+    	</if>
+    	<if test="cri.type == 3">
+    		and content like concat('%', #{cri.search},'%')
+    	</if>
   </select>
 </mapper>

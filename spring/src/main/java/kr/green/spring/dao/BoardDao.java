@@ -14,12 +14,11 @@ public interface BoardDao {
 	BoardVo getBoard(@Param("num")Integer num);
 
 	void increaseViews(@Param("num")Integer num);
-
 	
 	void registerBoard(@Param("board")BoardVo board);
 	
 	void updateBoard(@Param("board")BoardVo board);
 
-	int getTotalCount();
+	int getTotalCount(@Param("cri")Criteria cri);
 
 }
