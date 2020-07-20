@@ -38,6 +38,26 @@
 	    </beans:property>
 	</beans:bean>
 
+<!-- Interceptor를 이용한 유저 정보 세션에 저장하기에서 마지막에 있는 코드 -->
+<!-- Interceptor를 이용한 권한에 따른 페이지 사용 결정에서 2번째 코드를 가져와서 합침 -->
 	
+	<beans:bean id="loginInterceptor" 
+		class="kr.green.spring.interceptor.LoginInterceptor"></beans:bean>
+	<beans:bean id="authInterceptor" 
+		class="kr.green.spring.interceptor.AuthInterceptor"></beans:bean>
+			
+<interceptors>
+	<interceptor>
+	       <mapping path="/"/>
+	       <beans:ref bean="loginInterceptor"/>
+	</interceptor>
+	<interceptor>
+			<mapping path="/board/register"/>
+			<mapping path="/board/modify"/>
+			<mapping path="/board/delete"/>
+			<beans:ref bean="authInterceptor"/>
+		</interceptor>
+	</interceptors>
 	
 </beans:beans>
+

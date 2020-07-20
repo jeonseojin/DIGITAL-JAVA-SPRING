@@ -4,11 +4,12 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.green.spring.dao.UserDao">
 <!-- └ 인터페이스와 연결할지를 결장하는 것 -->
-  <select id="getPw" resultType="String">
-  <!-- UserDAO의 아이디를 의미 -->
-    select pw from user where id = #{id}
-  </select>
-  <select id="getCount" resultType="int">
-  	select count(*) from user
-  </select>
+	<select id="getUser" resultType="kr.green.spring.vo.UserVo">
+		select *  from user where id = #{id}
+	</select>
+	<insert id="insertUser">
+		insert into
+			user(id,pw,email,gender)
+			values(#{user.id},#{user.pw},#{user.email},#{user.gender})
+	</insert>
 </mapper>

@@ -30,11 +30,15 @@
 		  </div>
 		</div>
    </form>
-   <a href="<%=request.getContextPath()%>/board/list?&page=${cri.page}& type=${cri.type}&search=${cri.search}"><button>목록</button></a>
-   <a href="<%=request.getContextPath()%>/board/register"><button>글쓰기</button></a>
-   <a href="<%=request.getContextPath()%>/board/modify?num=${board.num}"><button>수정</button></a>
-   <!-- modify에서 수정을 하려면 수정하려는 게시글 번호를 알아야 하기 때문에 ?num=${board.num}을 입력해야한다. (삭제도 동일) -->
-   <a href="<%=request.getContextPath()%>/board/delete?num=${board.num}"><button>삭제</button></a>
+	<a href="<%=request.getContextPath()%>/board/list?&page=${cri.page}& type=${cri.type}&search=${cri.search}"><button>목록</button></a>
+	<c:if test="${user !=null }">
+   		<a href="<%=request.getContextPath()%>/board/register"><button>글쓰기</button></a>
+	</c:if>
+	<c:if test="${user!=null && board.writer == user.id}">
+	   <a href="<%=request.getContextPath()%>/board/modify?num=${board.num}"><button>수정</button></a>
+	   <!-- modify에서 수정을 하려면 수정하려는 게시글 번호를 알아야 하기 때문에 ?num=${board.num}을 입력해야한다. (삭제도 동일) -->
+	   <a href="<%=request.getContextPath()%>/board/delete?num=${board.num}"><button>삭제</button></a>
+	</c:if>
 
    
      

@@ -1,9 +1,15 @@
 package kr.green.spring.service;
 
+import javax.servlet.http.HttpServletRequest;
+
+import kr.green.spring.vo.UserVo;
+
 public interface UserService {
 
-	String getPw(String id);
+	boolean signup(UserVo user);
 
-	int getCount();
+	UserVo isSignin(UserVo user);
+
+	UserVo getUser(HttpServletRequest request);
 
 }

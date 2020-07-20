@@ -2,9 +2,11 @@ package kr.green.spring.dao;
 
 import org.apache.ibatis.annotations.Param;
 
-public interface UserDao {
-						//	작성한 id를 현재 id로 사용한다는 의미
-	public String getPw(@Param("id")String id);
+import kr.green.spring.vo.UserVo;
 
-	public int getCount();
+public interface UserDao {
+
+	public UserVo getUser(@Param("id")String id);
+
+	public void insertUser(@Param("user")UserVo user);
 }
