@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import kr.green.springtest.pagination.Criteria;
 import kr.green.springtest.pagination.PageMaker;
 import kr.green.springtest.vo.BoardVo;
+import kr.green.springtest.vo.UserVo;
 
 public interface BoardService {
 
@@ -18,7 +19,7 @@ public interface BoardService {
 
 	void updateBoard(BoardVo board);
 
-	void deleteBoard(Integer num);
+	void deleteBoard(Integer num, UserVo userVo);// -> UserVo를 추가
 
 	PageMaker getPageMakerByBoard(Criteria cri);
 

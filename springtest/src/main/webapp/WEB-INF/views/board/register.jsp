@@ -4,7 +4,6 @@
 <form class="board-bar" method="POST" action="<%=request.getContextPath()%>/board/register">
 		<div class="input-group mb-3">		 
 			<input type="text" class="form-control" placeholder="제목을 입력하세요" name="title" >
-			<input type="text" class="form-control" placeholder="아이디를 입력하세요" name="writer" id="input-mo" >
 		</div>
 		<div class="form-group">
 			<label for="comment">게시물 내용</label>

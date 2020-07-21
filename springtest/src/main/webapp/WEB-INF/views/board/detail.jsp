@@ -16,7 +16,7 @@
 			   <div class="input-group-prepend">
 			   <span class="input-group-text">${board.num}</span>
 			</div>		 
-			<input type="text" class="form-control" value=${board.title} readonly>
+			<input type="text" class="form-control" value="${board.title}" readonly>
 			<div class="input-group-prepend">
 			    <span class="input-group-text">${board.writer}</span>
 			    <span class="input-group-text">${board.registerDate}</span>
@@ -30,9 +30,13 @@
 			</div>
 			<div>
 				<a href="<%=request.getContextPath() %>/board/list?page=${cri.page}&type=${cri.type}&search=${cri.search}" class="btn-board left"><button type="button" class="btn btn-outline-secondary">목록</button></a>
-				<a href="<%=request.getContextPath() %>/board/register" class="btn-board"><button type="button" class="btn btn-outline-success">등록</button></a>
-				<a href="<%=request.getContextPath() %>/board/modify?num=${board.num}" class="btn-board mama"><button type="button" class="btn btn-outline-info">수정</button></a>
-				<a href="<%=request.getContextPath() %>/board/delete?num=${board.num}" class="btn-board mama"><button type="button" class="btn btn-outline-danger">삭제</button></a>
+				<c:if test="${user!=null}">
+					<a href="<%=request.getContextPath() %>/board/register" class="btn-board"><button type="button" class="btn btn-outline-success">등록</button></a>
+					<c:if test="${user.id == board.writer}">
+						<a href="<%=request.getContextPath() %>/board/modify?num=${board.num}" class="btn-board mama"><button type="button" class="btn btn-outline-info">수정</button></a>
+						<a href="<%=request.getContextPath() %>/board/delete?num=${board.num}" class="btn-board mama"><button type="button" class="btn btn-outline-danger">삭제</button></a>
+					</c:if>
+				</c:if>
 			</div>
 		</c:if>
 	</c:if>

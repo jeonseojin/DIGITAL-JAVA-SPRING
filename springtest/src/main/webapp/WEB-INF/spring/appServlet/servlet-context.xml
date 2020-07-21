@@ -39,6 +39,25 @@
 	    </beans:property>
 	</beans:bean>
 
-	
+<!-- 로그인 후 접근해야 하는 경로(URI)가 주어졌을 때 anthInterceptor/LoginInterceptor 호출하도록 interceptor태그에 등록 -->
+	<beans:bean id="loginInterceptor" 
+		class="kr.green.springtest.interceptor.LoginInterceptor"></beans:bean>
+		<!-- 해당하는 요소를 등록하는 것 -->
+	<beans:bean id="authInterceptor" 
+		class="kr.green.springtest.interceptor.AuthInterceptor"></beans:bean>
+		
+	<interceptors>
+	    <interceptor>
+	        <mapping path="/"/>
+	        <mapping path="/user/signin"/>
+	        <beans:ref bean="loginInterceptor"/>
+	    </interceptor>
+	    <interceptor>
+	        <mapping path="/board/register"/>
+	        <mapping path="/board/modify"/>
+	        <mapping path="/board/delete"/>
+	        <beans:ref bean="authInterceptor"/>
+	    </interceptor>
+	</interceptors>
 	
 </beans:beans>

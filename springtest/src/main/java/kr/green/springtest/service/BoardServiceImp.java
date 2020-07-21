@@ -10,6 +10,7 @@ import kr.green.springtest.dao.BoardDao;
 import kr.green.springtest.pagination.Criteria;
 import kr.green.springtest.pagination.PageMaker;
 import kr.green.springtest.vo.BoardVo;
+import kr.green.springtest.vo.UserVo;
 
 @Service
 public class BoardServiceImp implements BoardService {
@@ -57,10 +58,12 @@ public class BoardServiceImp implements BoardService {
 
 	//delete controller와 연결
 	@Override
-	public void deleteBoard(Integer num) {
+	public void deleteBoard(Integer num, UserVo user) {
 		// 메소드의 재사용성을 높이기 위해서 만들어 놓았던 메소드들을 이용하여 삭제
 		BoardVo board = boardDao.getBoard(num);
 		if(board==null)
+			return;
+		if(!board.getWriter().equals(user.getId()))// get방식으로 처리하기 때문에 해당 코드를 추가해서 예외처리를 해줌
 			return;
 		board.setIsDel('Y');
 		board.setDelDate(new Date());//board가 가지고 있는 DelDate의 값을 현재 시간으로 설정하는 것

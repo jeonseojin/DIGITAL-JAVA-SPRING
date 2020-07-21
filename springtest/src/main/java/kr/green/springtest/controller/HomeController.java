@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,15 +33,42 @@ public class HomeController {
 		logger.info("URI:/");
 		mv.setViewName("/main/home");
 		UserVo user = userService.isUser(inputUser);
-		mv.addObject("id", inputUser.getId());
-		// imp에서 로그인에 실패할 경우에 알람이 뜰 수 있도록 스크립트를 설정함
-		// user가 없을 경우 false가 되기 때문에 알림창이 뜬다.
-		if(user == null) {
-			mv.addObject("isLogin", false);
+		if(user != null) {
+			mv.setViewName("redirect:/board/list");
+			mv.addObject("user"/*logininterceptor에 있는객체로 서로 연결*/, user);
 		}
 		return mv;
 	}
 	
+	//signup과 연결되는 메서드
+	@RequestMapping(value = "/user/signup", method = {RequestMethod.GET})
+	public ModelAndView Signup(ModelAndView mv) {
+		logger.info("URI:/signup:GET");
+		mv.setViewName("/main/signup");
+		return mv;
+	}
+	@RequestMapping(value = "/user/signup", method = {RequestMethod.POST})
+	public ModelAndView SignupPost(ModelAndView mv,UserVo user) {
+		logger.info("URI:/signup");
+		if(userService.signup(user))
+			mv.setViewName("redirect:/");
+		else {
+			mv.setViewName("redirect:/user/signup");
+			mv.addObject("user", user);
+		}
+		return mv;
+	}
 	
+	//signout과 연결
+	@RequestMapping(value = "/user/signout", method = {RequestMethod.GET})
+	public ModelAndView Signout(ModelAndView mv,HttpServletRequest request) {
+		logger.info("URI:/signout:GET");
+		mv.setViewName("redirect:/");
+		/* Session에 로그인 정보가 있는지 없는지로 로그인 여부를 확인하기 때문에 
+		 * 매개변수에 HttpServletRequest를 추가해준 후에
+		 * request.getSession()/removeAttribure("user");로 셋션에서 지우면 로그아웃이 가능하다.*/
+		request.getSession().removeAttribute("user");
+		return mv;
+	}
 
 }
