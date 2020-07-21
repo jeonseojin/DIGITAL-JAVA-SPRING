@@ -15,6 +15,7 @@ import kr.green.springtest.vo.UserVo;
 @Service
 public class BoardServiceImp implements BoardService {
 
+	/* @Autowired : 의존 객체의 "타입"에 해당하는 빈(bean 객체)을 찾아서 자동주입 */
 	@Autowired
 	private BoardDao boardDao;
 

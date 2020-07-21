@@ -31,16 +31,21 @@ public class UserServiceImp implements UserService {
 		 * => 입력한 비밀번호는 실제 비밀번호이고 DB에 저장된 비밀 번호는 암호화된 비밀번호이기 때문에 쿼리로 직접 비교할 수 없다.
 		 * => 다른 이유로는 pw에 이상한 작업을 하면 로그인이 될 수 있기 때문
 		 * 		(블라인드 SQL 인젝션이라고 함)
-		 * */
-		UserVo user = userDao.getUser(inputUser.getId());
-		// 암호화를 하지 않았기 때문에 equals로 비교가 가능하지만 암호화를 한 경우에는  다른 방법을 사용해야한다.
+		 *암호화를 하지 않았기 때문에 equals로 비교가 가능하지만 암호화를 한 경우에는  다른 방법을 사용해야한다.
+		 
+	- 암호화를 하지 않았을 경우의 코드
+		UserVo user = userDao.getUser(inputUser.getId()); 
 		if(user == null)// 유저가 없을 경우
+			return null; 
+		if(user.getPw().equals(inputUser.getPw());
+			return user;
+		return null;
+		
+	- 암호화를 했을 경우의 코드(암호화 코드인 matches를 이용하여 변경해줌) */
+		UserVo user = userDao.getUser(inputUser.getId());
+		if(user==null)
 			return null;
-		/* 암호화를 하지 않았던 아래의 코드를 이용하여
-		 * if(user.getPw().equals(inputUser.getPw()))
-		 * 암호화 코드인 matches를 이용하여 변경해줌
-		*/
-		if(user != null && passwordEncoder.matches(inputUser.getPw(), user.getPw())){
+		if(passwordEncoder.matches(inputUser.getPw(), user.getPw())){
 			return user;
 		}
 		return null;
