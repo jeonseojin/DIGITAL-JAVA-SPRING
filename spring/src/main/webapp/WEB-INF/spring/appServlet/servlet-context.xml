@@ -46,12 +46,12 @@
 	<beans:bean id="authInterceptor" 
 		class="kr.green.spring.interceptor.AuthInterceptor"></beans:bean>
 			
-<interceptors>
-	<interceptor>
-	       <mapping path="/"/>
-	       <beans:ref bean="loginInterceptor"/>
-	</interceptor>
-	<interceptor>
+	<interceptors>
+		<interceptor>
+		       <mapping path="/"/>
+		       <beans:ref bean="loginInterceptor"/>
+		</interceptor>
+		<interceptor>
 			<mapping path="/board/register"/>
 			<mapping path="/board/modify"/>
 			<mapping path="/board/delete"/>
@@ -59,5 +59,15 @@
 		</interceptor>
 	</interceptors>
 	
+	
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	    <!-- 업로드 최대 크기 10Mb -->
+	    <beans:property name="maxUploadSize" value="10485760"></beans:property>
+	</beans:bean>
+	<beans:bean id="uploadPath" class="java.lang.String">
+	    <beans:constructor-arg value="D:\\git\\uploadfiles"></beans:constructor-arg>
+	</beans:bean>
 </beans:beans>
+
+
 

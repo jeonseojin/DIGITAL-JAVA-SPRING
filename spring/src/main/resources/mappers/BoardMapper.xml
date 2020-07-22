@@ -45,8 +45,8 @@
   <insert id="registerBoard">
   	<!-- 인설트는 리턴 타입을 따로 가지고 있지 않다. -->
   	insert into 
-  		board(title,writer,content)
-  		values(#{board.title},#{board.writer},#{board.content})
+  		board(title,writer,content,file)
+  		values(#{board.title},#{board.writer},#{board.content},#{board.file})
   </insert>
 
   <update id="updateBoard">
@@ -56,8 +56,8 @@
   			content = #{board.content},<!-- 삭제를 위해서 추가한 내용 -->
   			isDel = #{board.isDel},
   			delDate = #{board.delDate},
-  			board.like = (select count(*) from spring.like where boNum = #{board.num})
-  			<!-- like는 키워드로 사용하기 떄문에 board.like로 사용 -->
+  			board.like = (select count(*) from spring.like where boNum = #{board.num}),<!-- like는 키워드로 사용하기 떄문에 board.like로 사용 -->
+  			file = #{board.file}
   		where
   			num = #{board.num}
   </update>

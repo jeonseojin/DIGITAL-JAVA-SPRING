@@ -34,6 +34,11 @@
 			  <textarea class="form-control" rows="5" name="content" readonly>${board.content}</textarea>
 		  </div>
 		</div>
+		<c:if test="${board.file != null}">
+			<div>
+				<a href="<%=request.getContextPath()%>/board/download?fileName=${board.file}" class="form-control">${board.orifile}</a>
+			</div>
+		</c:if>
    </form>
 	<a href="<%=request.getContextPath()%>/board/list?&page=${cri.page}& type=${cri.type}&search=${cri.search}"><button>목록</button></a>
 	<c:if test="${user !=null }">
@@ -44,7 +49,7 @@
 	   <!-- modify에서 수정을 하려면 수정하려는 게시글 번호를 알아야 하기 때문에 ?num=${board.num}을 입력해야한다. (삭제도 동일) -->
 	   <a href="<%=request.getContextPath()%>/board/delete?num=${board.num}"><button>삭제</button></a>
 	</c:if>
-
+	
    <script>
 	$(function(){
 		$('#like').click(function(){

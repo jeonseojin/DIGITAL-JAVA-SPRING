@@ -1,5 +1,8 @@
 package kr.green.spring.controller;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,22 +13,29 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.ibatis.annotations.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.green.spring.pagination.Criteria;
 import kr.green.spring.pagination.PageMaker;
 import kr.green.spring.service.BoardService;
 import kr.green.spring.service.UserService;
+import kr.green.spring.utils.UploadFileUtils;
 import kr.green.spring.vo.BoardVo;
 import kr.green.spring.vo.UserVo;
 
@@ -38,6 +48,8 @@ public class BoardController {
 	@Autowired
 	private UserService userService;
 	
+	private String uploadPath="D:\\git\\uploadfiles";
+			
 	//list.jsp와 연결
 	@RequestMapping(value = "/board/list", method = RequestMethod.GET)
 	public ModelAndView boardListGet(ModelAndView mv, Criteria cri/* String type, String search를 따로 입력하지 않고 Criteria에 추가함*/) {
@@ -82,15 +94,18 @@ public class BoardController {
 	}
 	// form태그의 post를 입력했기 때문에 등록버튼을 클릭했을 경우 POST를 찾아서 변경한다.
 	@RequestMapping(value = "/board/register", method = RequestMethod.POST)
-	public ModelAndView boardRegisterPost(ModelAndView mv, BoardVo board,HttpServletRequest request) {
+	public ModelAndView boardRegisterPost(ModelAndView mv, BoardVo board,HttpServletRequest request,MultipartFile file2) throws IOException, Exception {
 		//String title, String content를 사용해도 가능하지만 데이터가 늘어났을때 관리하기 힘들다.
 		// BoardVo board로 입력하면 해당 BoardVo에 같은 객체가 존재하면 찾아서 등록하게 된다.
 		logger.info("URI:/board/register:POST");
 		// redirect를 입력해야 해당 위치로 변경된다.
 		mv.setViewName("redirect:/board/list");
-		boardService.registerBoard(board,request);
+		
 		/* HttpServletRequest request 개발자 도구에서 readonly를 지우고 다른 아이디를 입력할 경우에도 등록이 되는 경우를 방지하기 위해서 사용*/
-		System.out.println(board);
+		String fileName =UploadFileUtils.uploadFile(uploadPath, file2.getOriginalFilename(),file2.getBytes());
+				board.setFile(fileName);
+
+		boardService.registerBoard(board,request);
 		return mv;
 	}
 	
@@ -149,4 +164,29 @@ public class BoardController {
 	    }
 	    return map;
 	}
+	
+	// 업로드된 파일 다운로드 테스트에서 코드를 복사해옴
+	@ResponseBody
+	@RequestMapping("/board/download")
+	public ResponseEntity<byte[]> downloadFile(String fileName)throws Exception{
+	    InputStream in = null;
+	    ResponseEntity<byte[]> entity = null;
+	    try{
+	        HttpHeaders headers = new HttpHeaders();
+	        in = new FileInputStream(uploadPath+fileName);
+
+	        fileName = fileName.substring(fileName.indexOf("_")+1);
+	        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+	        headers.add("Content-Disposition",  "attachment; filename=\"" 
+				+ new String(fileName.getBytes("UTF-8"), "ISO-8859-1")+"\"");
+	        entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in),headers,HttpStatus.CREATED);
+	    }catch(Exception e) {
+	        e.printStackTrace();
+	        entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
+	    }finally {
+	        in.close();
+	    }
+	    return entity;
+	}
+
 }

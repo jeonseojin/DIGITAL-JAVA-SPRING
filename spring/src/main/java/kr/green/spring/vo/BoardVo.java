@@ -15,6 +15,7 @@ public class BoardVo {
 	private int views;
 	private Date delDate;
 	private int like;
+	private String file;
 	public int getNum() {
 		return num;
 	}
@@ -81,13 +82,24 @@ public class BoardVo {
 	public void setLike(int like) {
 		this.like = like;
 	}
+	public String getFile() {
+		return file;
+	}
+	public void setFile(String file) {
+		this.file = file;
+	}
 	@Override
 	public String toString() {
 		return "BoardVo [num=" + num + ", writer=" + writer + ", title=" + title + ", content=" + content
 				+ ", registerDate=" + registerDate + ", isDel=" + isDel + ", views=" + views + ", delDate=" + delDate
-				+ ", like=" + like + "]";
+				+ ", like=" + like + ", file=" + file + "]";
 	}
 
+	// 게시판에서 업로드된 파일명이 경로와 함께 뜨기 때문에 실제 파일명을 알기 위해서 "_" 뒤에 오는 제목 부분을 불러오는 코드
+	public String getOrifile() {
+		int index = file.indexOf("_");
+		return file.substring(index+1);
+	}
 	
 	
 }
