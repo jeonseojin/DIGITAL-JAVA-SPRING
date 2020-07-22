@@ -1,5 +1,5 @@
 @charset "UTF-8";
-		
+
 		.container.body{
 			min-height: 800px;
 			margin-top: 20px;
@@ -154,4 +154,16 @@
 			height: 50px;
 			font-size: 24px;
 			border: none;
+		}
+		.dup-fail-msg,
+		.dup-suc-msg{
+			color: red;
+			line-height: 16px;
+			margin-bottom: 10px;
+		}
+		.display-none{
+			display: none;
+		}
+		.dup-suc-msg{
+			color: rgb(0, 200, 80);
 		}

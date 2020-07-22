@@ -2,7 +2,9 @@ package kr.green.spring.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,8 +14,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.green.spring.service.UserService;
@@ -80,5 +84,18 @@ public class HomeController {
 		request.getSession().removeAttribute("user");
 		
 		return mv;
+	}
+	
+	//임시 ajax 문성 추가 에서 코드 가져오기
+	@RequestMapping(value ="/idCheck")
+	@ResponseBody
+	public Map<Object, Object> idcheck(@RequestBody String id){
+
+	    Map<Object, Object> map = new HashMap<Object, Object>();
+	    UserVo user = userService.getUser(id);
+	    boolean check = user == null? true : false;//참거짓으로 회원가입 여부만 확인가능
+	    map.put("check", check);
+	    
+	    return map;
 	}
 }
