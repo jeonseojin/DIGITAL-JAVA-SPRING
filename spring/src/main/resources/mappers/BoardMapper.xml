@@ -55,7 +55,9 @@
   			title = #{board.title},
   			content = #{board.content},<!-- 삭제를 위해서 추가한 내용 -->
   			isDel = #{board.isDel},
-  			delDate = #{board.delDate}
+  			delDate = #{board.delDate},
+  			board.like = (select count(*) from spring.like where boNum = #{board.num})
+  			<!-- like는 키워드로 사용하기 떄문에 board.like로 사용 -->
   		where
   			num = #{board.num}
   </update>
@@ -81,5 +83,16 @@
     	<if test="cri.type == 3">
     		and content like concat('%', #{cri.search},'%')
     	</if>
+  </select>
+  <!-- 조회수 -->
+  <insert id="insertLike">
+  	insert into 
+  		spring.like(id,boNum)
+  		values(#{id},#{boNum})
+  </insert>
+  <select id="isLike" resultType="int">
+  	select count(*)
+  		from spring.like
+  		where id = #{id} and boNum = #{boNum}
   </select>
 </mapper>

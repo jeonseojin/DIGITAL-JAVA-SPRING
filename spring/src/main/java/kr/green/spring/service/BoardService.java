@@ -25,4 +25,6 @@ public interface BoardService {
 	void deleteBoard(Integer num, UserVo userVo);
 
 	PageMaker getPageMaker(Criteria cri);
+
+	int updateLike(String num, String id);
 }

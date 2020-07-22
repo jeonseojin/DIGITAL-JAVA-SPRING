@@ -86,5 +86,22 @@ public class BoardServiceImp implements BoardService {
 	}
 
 
+	//추천 관련 메서드
+	@Override
+	public int updateLike(String num, String id) {
+		if(boardDao.isLike(Integer.parseInt(num),id)==0) {// 동일한 아이디로 추천을 눌렀을 경우를 알기 위해서
+			boardDao.insertLike(Integer.parseInt(num), id);
+		}else {
+			return -1;
+			// 중복으로 추천한 경우 알림창을 띄우기 위하여 생성
+		}
+		// 추천을 추가하기
+		BoardVo board = boardDao.getBoard(Integer.parseInt(num));
+		boardDao.updateBoard(board);
+		board = boardDao.getBoard(Integer.parseInt(num));
+		return board.getLike();
+	}
+
+
 
 }
