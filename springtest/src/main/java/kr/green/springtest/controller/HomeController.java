@@ -2,7 +2,9 @@ package kr.green.springtest.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,8 +13,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.green.springtest.service.UserService;
@@ -70,5 +74,16 @@ public class HomeController {
 		request.getSession().removeAttribute("user");
 		return mv;
 	}
+	
+	//아이디중복확인
+	@RequestMapping(value ="/idCheck")
+	@ResponseBody
+	public Map<Object, Object> idcheck(@RequestBody String id){
+
+	    Map<Object, Object> map = new HashMap<Object, Object>();
+	    map.put("res",userService.getUser(id)==null);
+	    return map;
+	}
+	
 
 }

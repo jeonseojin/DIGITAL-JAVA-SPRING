@@ -142,3 +142,10 @@
             border: none;
         }
 <!-- signup 스타일적용 마지막 -->
+.container-body{
+	
+}
+
+label.error{
+	color: red;
+}

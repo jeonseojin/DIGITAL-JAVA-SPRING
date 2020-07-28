@@ -44,20 +44,23 @@
 		class="kr.green.springtest.interceptor.LoginInterceptor"></beans:bean>
 		<!-- 해당하는 요소를 등록하는 것 -->
 	<beans:bean id="authInterceptor" 
-		class="kr.green.springtest.interceptor.AuthInterceptor"></beans:bean>
+		class="kr.green.springtest.interceptor.AuthInterceptor"></beans:bean>	
 		
 	<interceptors>
-	    <interceptor>
-	        <mapping path="/"/>
-	        <mapping path="/user/signin"/>
-	        <beans:ref bean="loginInterceptor"/>
-	    </interceptor>
-	    <interceptor>
+		<interceptor>
+			<mapping path="/"/>
+			<mapping path="/user/signin"/>
+			<beans:ref bean="loginInterceptor"/>
+		</interceptor>
+		<interceptor>
 	        <mapping path="/board/register"/>
 	        <mapping path="/board/modify"/>
 	        <mapping path="/board/delete"/>
 	        <beans:ref bean="authInterceptor"/>
-	    </interceptor>
+		</interceptor>
 	</interceptors>
-	
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	    <!-- 업로드 최대 크기 10Mb -->
+	    <beans:property name="maxUploadSize" value="10485760"></beans:property>
+	</beans:bean>
 </beans:beans>

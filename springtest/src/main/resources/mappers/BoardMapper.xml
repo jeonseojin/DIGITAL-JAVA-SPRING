@@ -36,8 +36,8 @@
 	<!-- 등록 -->
 	<insert id="insertBoard">
 		insert into
-		board(title, writer, content)
-		values(#{board.title}, #{board.writer},#{board.content})
+		board(title, writer, content,file)
+		values(#{board.title}, #{board.writer},#{board.content},#{board.file})
 	</insert>
 	
 	<!-- 조회수/ 수정 -->
@@ -48,7 +48,8 @@
 				content = #{board.content},
 				isDel = #{board.isDel},
 				delDate = #{board.delDate},<!-- 삭제 -->
-				views = #{board.views}<!-- 조회수 -->
+				views = #{board.views},<!-- 조회수 -->
+				file = #{board.file}<!-- file업로드를 할 경우에 수정 -->
 			where
 				num = #{board.num}
 	</update>
@@ -72,4 +73,18 @@
 	    		and content like concat('%', #{cri.search},'%')
 	    	</if>
 	</select>
+	
+	<!-- updateUp에서 생성한 3가지 -->
+	<select id="selectUp" resultType="int">
+	  	select count(*) from up where boNum = #{boNum} and id = #{id}
+	</select>
+	<insert id="insertUp">
+		insert into up(id,boNum) values(#{id},#{boNum})
+	</insert>
+	<update id="updateBoardByUp">
+		update board
+		set
+			up = (select count(*) from up where boNum = #{num})
+		where num = #{num}
+	  </update>
 </mapper>
