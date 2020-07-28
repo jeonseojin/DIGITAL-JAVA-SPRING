@@ -167,3 +167,6 @@
 		.dup-suc-msg{
 			color: rgb(0, 200, 80);
 		}
+label.error{
+	color:red;
+}

@@ -12,4 +12,9 @@
 			user(id,pw,email,gender)
 			values(#{user.id},#{user.pw},#{user.email},#{user.gender})
 	</insert>
+	<update id="updatePw">
+		update user
+			set pw = #{user.pw}
+			where id = #{user.id}
+	</update>
 </mapper>

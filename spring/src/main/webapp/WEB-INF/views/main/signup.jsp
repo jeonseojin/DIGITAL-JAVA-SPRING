@@ -72,6 +72,68 @@
 						}
 			        }
 			    });
+				else{
+					$('.dup-suc-msg').addClass('display-none')
+					$('.dup-fail-msg').addClass('display-none')
+				}
 			})
-	})
+
+			$("form").validate({
+				rules: {
+					id:{
+						required : true,
+						minlength : 4
+					},
+					pw: {
+			            required : true,
+			            minlength : 8,
+			            maxlength : 20,
+			            regex: /^\w*(\d[A-z]|[A-z]\d)\w*$/
+			        },
+			        pw2: {
+			            required : true,
+			            equalTo : pw
+			        },
+			        email: {
+			            required : true,
+			            email : true
+			        },
+			        gender: {
+			          	required : true
+			          }
+			        },
+			      //규칙체크 실패시 출력될 메시지
+			       messages : {
+			           id: {
+			       			required : "필수로입력하세요",
+			                minlength : "최소 {0}글자이상이어야 합니다"
+			            },
+			            pw: {
+			                required : "필수로입력하세요",
+			                minlength : "최소 {0}글자이상이어야 합니다",
+			                maxlength : "최대 {0}글자이하이어야 합니다",
+			                regex : "영문자, 숫자로 이루어져있으며 최소 하나이상 포함"
+			            },
+			            pw2: {
+			                required : "필수로입력하세요",
+			                equalTo : "비밀번호가 일치하지 않습니다."
+			            },
+			            email: {
+			                required : "필수로입력하세요",
+			                email : "메일규칙에 어긋납니다"
+			            },
+			            gender: {
+			            	required : "필수로입력하세요"
+			            }     
+			       }
+		    });
+			$.validator.addMethod(
+			    "regex",
+			    function(value, element, regexp) {
+			        var re = new RegExp(regexp);
+			        return this.optional(element) || re.test(value);
+			    },
+			    "Please check your input."
+			);
+		})
 </script>

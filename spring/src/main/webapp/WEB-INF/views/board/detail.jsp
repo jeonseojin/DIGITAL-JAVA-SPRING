@@ -36,7 +36,7 @@
 		</div>
 		<c:if test="${board.file != null}">
 			<div>
-				<a href="<%=request.getContextPath()%>/board/download?fileName=${board.file}" class="form-control">${board.orifile}</a>
+				<a href="<%=request.getContextPath()%>/board/download?fileName=${board.file}" class="form-control">${board.oriFile}</a>
 			</div>
 		</c:if>
    </form>

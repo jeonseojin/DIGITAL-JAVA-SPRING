@@ -3,18 +3,13 @@ package kr.green.spring.controller;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.ibatis.annotations.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +18,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -130,12 +124,24 @@ public class BoardController {
 	}
 	// modify.jsp에 있는 수정하기를 누르면 정보가 수정되고 list.jsp로 돌아가게 연결 
 	@RequestMapping(value = "/board/modify", method = RequestMethod.POST)
-	public ModelAndView boardModifyPost(ModelAndView mv, BoardVo board,HttpServletRequest request) {
+	public ModelAndView boardModifyPost(ModelAndView mv, BoardVo board,HttpServletRequest request, MultipartFile file2) throws IOException, Exception {
 		logger.info("URI:/board/modify:Post");
 		mv.setViewName("redirect:/board/list");
 		// 새로운 정보를 boardService에 넘겨줌
 		UserVo user =userService.getUser(request);
-		boardService.updateBoard(board, user);
+		
+		//수정에서 첨부파일 추가/삭제 작업
+		if(file2.getOriginalFilename().length() != 0) {
+			String fileName = UploadFileUtils.uploadFile(uploadPath, 
+								file2.getOriginalFilename(),file2.getBytes());
+			board.setFile(fileName);
+		}else if(board.getFile().length() == 0){
+			board.setFile(null);
+		}
+		
+		boardService.updateBoard(board,user);
+		System.out.println(board);
+		System.out.println(file2.getOriginalFilename());
 		return mv;
 	}
 	
@@ -188,5 +194,6 @@ public class BoardController {
 	    }
 	    return entity;
 	}
+	
 
 }

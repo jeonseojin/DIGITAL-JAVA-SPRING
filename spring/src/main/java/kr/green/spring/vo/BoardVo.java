@@ -96,7 +96,7 @@ public class BoardVo {
 	}
 
 	// 게시판에서 업로드된 파일명이 경로와 함께 뜨기 때문에 실제 파일명을 알기 위해서 "_" 뒤에 오는 제목 부분을 불러오는 코드
-	public String getOrifile() {
+	public String getOriFile() {
 		int index = file.indexOf("_");
 		return file.substring(index+1);
 	}
